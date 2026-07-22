@@ -10,3 +10,6 @@ require("config.session")
 
 -- Tabline configuration
 require("config.tabline")
+
+-- Native statusline configuration
+require("config.statusline")

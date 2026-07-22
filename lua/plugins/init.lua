@@ -1,0 +1,10 @@
+-- nvim plugins configuration, each plugin has its own plugin
+require("plugins/whichkey")
+require("plugins/lsp")
+require("plugins/snacks")
+require("plugins/mini")
+require("plugins/theme")
+require("plugins/treesitter")
+require("plugins/blink")
+require("plugins/conform")
+require("plugins/git")

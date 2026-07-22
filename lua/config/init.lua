@@ -7,3 +7,6 @@ require("config.lsp")
 
 -- Session management
 require("config.session")
+
+-- Tabline configuration
+require("config.tabline")

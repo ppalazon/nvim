@@ -4,3 +4,6 @@ require("config.keymaps")
 require("config.diagnostics")
 require("config.autocmds")
 require("config.lsp")
+
+-- Session management
+require("config.session")

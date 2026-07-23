@@ -16,6 +16,7 @@ require("nvim-treesitter").install({
   "bash",
   "blade",
   "c",
+  "clojure",
   "comment",
   "css",
   "diff",
@@ -65,7 +66,7 @@ require("nvim-treesitter-textobjects").setup({
     lookahead = true,
     selection_modes = {
       ["@parameter.outer"] = "v", -- charwise
-      ["@function.outer"] = "V",  -- linewise
+      ["@function.outer"] = "V", -- linewise
       ["@class.outer"] = "<c-v>", -- blockwise
     },
     include_surrounding_whitespace = false,
@@ -96,13 +97,13 @@ end
 -- MOVE keymaps
 local mv = require("nvim-treesitter-textobjects.move")
 for _, map in ipairs({
-  { { "n", "x", "o" }, "]m", mv.goto_next_start,     "@function.outer" },
+  { { "n", "x", "o" }, "]m", mv.goto_next_start, "@function.outer" },
   { { "n", "x", "o" }, "[m", mv.goto_previous_start, "@function.outer" },
-  { { "n", "x", "o" }, "]]", mv.goto_next_start,     "@class.outer" },
+  { { "n", "x", "o" }, "]]", mv.goto_next_start, "@class.outer" },
   { { "n", "x", "o" }, "[[", mv.goto_previous_start, "@class.outer" },
-  { { "n", "x", "o" }, "]M", mv.goto_next_end,       "@function.outer" },
-  { { "n", "x", "o" }, "[M", mv.goto_previous_end,   "@function.outer" },
-  { { "n", "x", "o" }, "]o", mv.goto_next_start,     { "@loop.inner", "@loop.outer" } },
+  { { "n", "x", "o" }, "]M", mv.goto_next_end, "@function.outer" },
+  { { "n", "x", "o" }, "[M", mv.goto_previous_end, "@function.outer" },
+  { { "n", "x", "o" }, "]o", mv.goto_next_start, { "@loop.inner", "@loop.outer" } },
   { { "n", "x", "o" }, "[o", mv.goto_previous_start, { "@loop.inner", "@loop.outer" } },
 }) do
   local modes, lhs, fn, query = map[1], map[2], map[3], map[4]

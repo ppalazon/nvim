@@ -289,4 +289,3 @@ for _, map in ipairs(keymaps) do
   local mode = map.mode or "n"
   vim.keymap.set(mode, map[1], map[2], opts)
 end
-

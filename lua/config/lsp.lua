@@ -3,6 +3,30 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("user_" .. name, { clear = true })
 end
 
+-- local ts_server = vim.g.lsp_typescript_server or "vtsls"
+
+-- Enable LSP servers for Neovim 0.11+ (
+vim.lsp.enable({
+  "lua_ls",
+  "slang_server",
+  -- ts_server,
+  -- "eslint",
+  -- "cssls",
+  -- "html",
+  -- "helm_ls",
+  -- "biome",
+  -- "yamlls",
+  -- "jsonls",
+  -- "tailwindcss",
+  --- ... etc
+})
+
+-- -- Load Lsp on-demand, e.g: eslint is disable by default
+-- -- e.g: We could enable eslint by set vim.g.lsp_on_demands = {"eslint"}
+if vim.g.lsp_on_demands then
+  vim.lsp.enable(vim.g.lsp_on_demands)
+end
+
 local default_keymaps = {
   { keys = "<leader>ca", func = vim.lsp.buf.code_action, desc = "Code Actions" },
   { keys = "<leader>cr", func = vim.lsp.buf.rename, desc = "Code Rename" },
@@ -49,30 +73,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
-
--- local ts_server = vim.g.lsp_typescript_server or "vtsls"
-
--- Enable LSP servers for Neovim 0.11+
--- vim.lsp.enable({
---   ts_server,
---   "eslint",
---   "lua_ls",
---   "gopls",
---   "rust_analyzer",
---   "zls",
---   "cssls",
---   "html",
---   "helm_ls",
---   "biome",
---   "yamlls",
---   "jsonls",
---   "tailwindcss",
---   --- ... etc
--- })
---
--- -- Load Lsp on-demand, e.g: eslint is disable by default
--- -- e.g: We could enable eslint by set vim.g.lsp_on_demands = {"eslint"}
--- if vim.g.lsp_on_demands then
---   vim.lsp.enable(vim.g.lsp_on_demands)
--- end
-

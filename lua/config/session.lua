@@ -1,6 +1,7 @@
 -- You can read more about session and this configuration on https://tduyng.com/blog/neovim-session-management/
 vim.opt.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
+-- Create sessions directory if it doesn't exist
 local session_dir = vim.fn.stdpath("state") .. "/sessions/"
 if vim.fn.isdirectory(session_dir) == 0 then
   vim.fn.mkdir(session_dir, "p")
@@ -16,8 +17,25 @@ local function get_last_session_file()
   return session_dir .. "last_session.vim"
 end
 
+-- SessionLoadPre — close stale plugin floats before session restore.
+-- Skip ui2 internal windows (filetype: cmd/msg/pager/dialog) or LSP floats.
+local _ui2_ft = { cmd = true, msg = true, pager = true, dialog = true }
+vim.api.nvim_create_autocmd("SessionLoadPre", {
+  callback = function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_config(win).relative ~= "" then
+        local ft = vim.bo[vim.api.nvim_win_get_buf(win)].filetype
+        if not _ui2_ft[ft] then
+          pcall(vim.api.nvim_win_close, win, true)
+        end
+      end
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
+    -- Only restore if no files were specified
     if vim.fn.argc() == 0 then
       local session_file = get_session_file()
       if vim.fn.filereadable(session_file) == 1 then
@@ -32,10 +50,11 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
   callback = function()
     local stop_file = session_dir .. ".stop_saving"
     if vim.fn.filereadable(stop_file) == 1 then
-      vim.fn.delete(stop_file)
+      vim.fn.delete(stop_file) -- Remove stop file for next time
       return
     end
 
+    -- Only save if we have actual file buffers (like persistence.nvim)
     local buf_count = 0
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
       if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_name(buf) ~= "" then
@@ -43,7 +62,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
       end
     end
 
-    if buf_count >= 1 then
+    if buf_count >= 1 then -- Minimum 1 buffer (like persistence default)
       local session_file = get_session_file()
       vim.cmd("mksession! " .. vim.fn.fnameescape(session_file))
       vim.cmd("mksession! " .. vim.fn.fnameescape(get_last_session_file()))
@@ -51,15 +70,17 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
   end,
 })
 
+-- Load session for current directory
 vim.keymap.set("n", "<leader>qs", function()
   local session_file = get_session_file()
   if vim.fn.filereadable(session_file) == 1 then
     vim.cmd("source " .. vim.fn.fnameescape(session_file))
   else
-    print("No session found")
+    print("No session found for current directory")
   end
-end, { desc = "Load session" })
+end, { desc = "Load session for current directory" })
 
+-- Load last session
 vim.keymap.set("n", "<leader>ql", function()
   local last_session = get_last_session_file()
   if vim.fn.filereadable(last_session) == 1 then
@@ -69,13 +90,14 @@ vim.keymap.set("n", "<leader>ql", function()
   end
 end, { desc = "Load last session" })
 
+-- Select and load a session
 vim.keymap.set("n", "<leader>qS", function()
   local sessions = {}
   local session_files = vim.fn.glob(session_dir .. "*.vim", false, true)
 
   for _, file in ipairs(session_files) do
     local name = vim.fn.fnamemodify(file, ":t:r")
-    name = name:gsub("%%", "/")
+    name = name:gsub("%%", "/") -- Convert back from escaped path
     table.insert(sessions, name)
   end
 
@@ -84,16 +106,30 @@ vim.keymap.set("n", "<leader>qS", function()
     return
   end
 
-  vim.ui.select(sessions, { prompt = "Select session:" }, function(choice)
+  vim.ui.select(sessions, {
+    prompt = "Select session to load:",
+  }, function(choice)
     if choice then
       local session_file = session_dir .. choice:gsub("/", "%%") .. ".vim"
       vim.cmd("source " .. vim.fn.fnameescape(session_file))
     end
   end)
-end, { desc = "Select session" })
+end, { desc = "Select session to load" })
 
+-- Stop session saving (create a flag file)
 vim.keymap.set("n", "<leader>qd", function()
   local stop_file = session_dir .. ".stop_saving"
   vim.fn.writefile({}, stop_file)
-  print("Session saving disabled")
-end, { desc = "Disable session saving" })
+  print("Session saving stopped")
+end, { desc = "Stop session saving" })
+
+-- Delete current session file (fresh start on next open)
+vim.keymap.set("n", "<leader>qr", function()
+  local session_file = get_session_file()
+  if vim.fn.filereadable(session_file) == 1 then
+    vim.fn.delete(session_file)
+    print("Deleted: " .. session_file)
+  else
+    print("No session to delete for current directory")
+  end
+end, { desc = "Delete current session" })

@@ -133,3 +133,11 @@ vim.filetype.add({
     ["%.env%.[%w_.-]+"] = "dotenv",
   },
 })
+
+vim.filetype.add({
+  filename = {
+    ["run.f"] = "questaf",
+    ["compile.f"] = "questaf",
+    ["questa.f"] = "questaf",
+  },
+})

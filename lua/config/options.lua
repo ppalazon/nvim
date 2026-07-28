@@ -139,5 +139,6 @@ vim.filetype.add({
     ["run.f"] = "questaf",
     ["compile.f"] = "questaf",
     ["questa.f"] = "questaf",
+    ["slang.f"] = "questaf",
   },
 })

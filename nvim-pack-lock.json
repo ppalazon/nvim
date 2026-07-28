@@ -79,6 +79,10 @@
       "rev": "f422cb5c6855f150e2ddcfaf44e7157b98b34f6a",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
+    "slang-server.nvim": {
+      "rev": "fedf769c407b4f36335f758d2c152ccae21a928b",
+      "src": "https://github.com/hudson-trading/slang-server.nvim"
+    },
     "snacks.nvim": {
       "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",
       "src": "https://github.com/folke/snacks.nvim"

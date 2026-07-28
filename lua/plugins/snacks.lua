@@ -34,7 +34,7 @@ Snacks.setup({
     sources = {
       files = {
         hidden = true,
-        ignored = true,
+        ignored = false,
         win = {
           input = {
             keys = {
@@ -66,7 +66,7 @@ Snacks.setup({
       },
       grep = {
         hidden = true,
-        ignored = true,
+        ignored = false,
         win = {
           input = {
             keys = {
@@ -101,7 +101,7 @@ Snacks.setup({
       grep_buffers = {},
       explorer = {
         hidden = true,
-        ignored = true,
+        ignored = false,
         supports_live = true,
         auto_close = true,
         diagnostics = true,

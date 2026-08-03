@@ -16,7 +16,11 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   once = true,
   callback = function()
     require("blink.cmp").setup({
-      keymap = { preset = "super-tab" },
+      keymap = {
+        preset = "super-tab",
+        ["<C-j>"] = { "select_next", "fallback" },
+        ["<C-k>"] = { "select_prev", "fallback" },
+      },
       appearance = {
         nerd_font_variant = "mono",
         use_nvim_cmp_as_default = true,

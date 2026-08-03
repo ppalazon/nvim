@@ -39,3 +39,17 @@ require("catppuccin").setup({
 })
 
 vim.cmd("colorscheme catppuccin-nvim")
+
+-- ===========
+-- Cendretheme
+-- ===========
+-- vim.pack.add({
+--   { src = "https://github.com/Aejkatappaja/cendre", name = "cendre" },
+-- })
+--
+-- require("cendre").setup({
+--   background = "medium", -- "hard" | "medium" | "soft"
+--   italic = false,
+-- })
+--
+-- vim.cmd("colorscheme cendre")

@@ -30,6 +30,8 @@ require("nvim-treesitter").install({
   "html",
   "ini",
   "javascript",
+  "jinja",
+  "jinja_inline",
   "jsdoc",
   "json",
   "jsonc",

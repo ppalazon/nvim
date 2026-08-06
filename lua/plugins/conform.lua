@@ -17,6 +17,7 @@ require("conform").setup({
     toml = { "taplo" },
     systemverilog = { "verible" },
     verilog = { "verible" },
+    yaml = { "yamlfmt" },
   },
   formatters = {
     biome = { require_cwd = true },

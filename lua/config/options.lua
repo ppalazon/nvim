@@ -142,3 +142,16 @@ vim.filetype.add({
     ["slang.f"] = "questaf",
   },
 })
+
+-- Add jinja configuration
+vim.filetype.add({
+  extension = {
+    jinja = "jinja",
+    jinja2 = "jinja",
+    j2 = "jinja",
+  },
+  pattern = {
+    [".*%.yaml%.j2"] = "yaml",
+    [".*%.yml%.j2"] = "yaml",
+  },
+})

@@ -102,6 +102,16 @@ Snacks.setup({
       explorer = {
         hidden = true,
         ignored = false,
+        actions = {
+          thunar_dir = function(picker)
+            if vim.fn.executable("thunar") == 0 then
+              vim.notify("Thunar executable not found", vim.log.levels.ERROR)
+              return
+            end
+
+            vim.system({ "thunar", picker:dir() }, { detach = true })
+          end,
+        },
         supports_live = true,
         auto_close = true,
         diagnostics = true,
@@ -120,6 +130,13 @@ Snacks.setup({
           ".venv",
           ".DS_Store",
           "**/.node-gyp/**",
+        },
+        win = {
+          list = {
+            keys = {
+              ["O"] = "thunar_dir",
+            },
+          },
         },
       },
     },

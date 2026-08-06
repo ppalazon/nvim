@@ -85,6 +85,28 @@ map("v", ">", ">gv")
 -- new file
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
+local function open_thunar(dir)
+  if vim.fn.executable("thunar") == 0 then
+    vim.notify("Thunar executable not found", vim.log.levels.ERROR)
+    return
+  end
+
+  vim.system({ "thunar", dir }, { detach = true })
+end
+
+map("n", "<leader>fd", function()
+  local file = vim.api.nvim_buf_get_name(0)
+  local dir = file ~= "" and vim.fs.dirname(file) or vim.uv.cwd()
+
+  open_thunar(dir)
+end, { desc = "Open Buffer Directory in Thunar" })
+
+map("n", "<leader>fD", function()
+  local dir = vim.fs.root(0, { ".git" }) or vim.uv.cwd()
+
+  open_thunar(dir)
+end, { desc = "Open Root Directory in Thunar" })
+
 -- location list
 map("n", "<leader>xl", function()
   local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)

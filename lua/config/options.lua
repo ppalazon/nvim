@@ -91,6 +91,10 @@ opt.diffopt:append("linematch:60")
 opt.redrawtime = 10000
 opt.maxmempattern = 20000
 
+-- Enables nvim project execution
+vim.o.exrc = true
+vim.o.secure = true
+
 -- Create undo directory if it doesn't exist
 local undodir = vim.fn.expand("~/.vim/undodir")
 if vim.fn.isdirectory(undodir) == 0 then

@@ -9,6 +9,28 @@ vim.pack.add({
 
 local Snacks = require("snacks")
 
+local function is_pdf(item)
+  local path = item and item.file
+  return path and path:lower():match("%.pdf$") ~= nil
+end
+
+local function open_system(path)
+  local _, err = vim.ui.open(path)
+  if err then
+    Snacks.notify.error("Failed to open `" .. path .. "`:\n- " .. err)
+  end
+end
+
+local function confirm_pdf_or_jump(picker, item, action)
+  if is_pdf(item) then
+    picker:close()
+    open_system(item.file)
+    return
+  end
+
+  Snacks.picker.actions.jump(picker, item, action)
+end
+
 Snacks.setup({
   animate = { enabled = true },
   bigfile = { enabled = true },
@@ -35,6 +57,7 @@ Snacks.setup({
       files = {
         hidden = true,
         ignored = false,
+        confirm = confirm_pdf_or_jump,
         win = {
           input = {
             keys = {
@@ -102,6 +125,20 @@ Snacks.setup({
       explorer = {
         hidden = true,
         ignored = false,
+        config = function(opts)
+          opts = require("snacks.picker.source.explorer").setup(opts)
+          opts.actions.confirm = function(picker, item, action)
+            if is_pdf(item) then
+              picker:close()
+              open_system(item.file)
+              return
+            end
+
+            require("snacks.explorer.actions").actions.confirm(picker, item, action)
+          end
+
+          return opts
+        end,
         actions = {
           thunar_dir = function(picker)
             if vim.fn.executable("thunar") == 0 then

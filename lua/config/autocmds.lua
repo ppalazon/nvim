@@ -2,13 +2,23 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("user_" .. name, { clear = true })
 end
 
--- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+-- Check if we need to reload the file when it changed externally
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI", "TermClose", "TermLeave" }, {
   group = augroup("checktime"),
   callback = function()
-    if vim.o.buftype ~= "nofile" then
-      vim.cmd("checktime")
+    if vim.bo.buftype ~= "" then
+      return
     end
+
+    vim.cmd("checktime")
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  group = augroup("file_changed_shell"),
+  callback = function(event)
+    local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(event.buf), ":t")
+    vim.notify("Reloaded external changes: " .. name, vim.log.levels.INFO)
   end,
 })
 
@@ -141,4 +151,3 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.opt_local.filetype = "json"
   end,
 })
-

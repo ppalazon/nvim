@@ -5,6 +5,14 @@
       {
         "language": ["typescript", "typescriptreact", "javascriptreact", "javascript"],
         "path": "./typescript.json"
+      },
+      {
+        "language": ["c", "cpp"],
+        "path": "./c.json"
+      },
+      {
+        "language": ["c", "cpp", "cdoc"],
+        "path": "./cdoc.json"
       }
     ]
   }

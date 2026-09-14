@@ -6,6 +6,9 @@ vim.pack.add({
 -- Activate mini.comments
 require("mini.comment").setup()
 
+-- Automatic pair insertion and closing-character skipping
+require("mini.pairs").setup()
+
 -- Better Around/Inside textobjects
 --
 -- Examples:

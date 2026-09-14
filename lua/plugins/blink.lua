@@ -17,7 +17,18 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   callback = function()
     require("blink.cmp").setup({
       keymap = {
-        preset = "super-tab",
+        -- preset = "super-tab",
+        preset = "default",
+        -- ["<CR>"] = {
+        --   function(cmp)
+        --     if cmp.is_menu_visible() then
+        --       return cmp.accept()
+        --     end
+        --
+        --     return require("mini.pairs").cr()
+        --   end,
+        --   "fallback",
+        -- },
         ["<C-j>"] = { "select_next", "fallback" },
         ["<C-k>"] = { "select_prev", "fallback" },
       },
@@ -30,6 +41,15 @@ vim.api.nvim_create_autocmd("InsertEnter", {
       },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
+        providers = {
+          snippets = {
+            opts = {
+              search_paths = {
+                vim.fn.stdpath("config") .. "/lua/snippets",
+              },
+            },
+          },
+        },
       },
       fuzzy = { implementation = "prefer_rust_with_warning" },
     })

@@ -48,7 +48,7 @@ opt.undofile = true -- Persistent undo
 opt.undolevels = 10000
 opt.undodir = vim.fn.expand("~/.vim/undodir") -- Undo directory
 opt.updatetime = 300 -- Faster completion
-opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
+opt.timeoutlen = 1000 -- Allow time to complete multi-key mappings such as <leader>ww
 opt.ttimeoutlen = 0 -- Key code timeout
 opt.autoread = true -- Auto reload files changed outside vim
 opt.autowrite = true -- Auto save
@@ -60,7 +60,8 @@ opt.backspace = "indent,eol,start" -- Better backspace behavior
 opt.autochdir = false -- Don't auto change directory
 opt.iskeyword:append("-") -- Treat dash as part of word
 opt.path:append("**") -- include subdirectories in search
-opt.selection = "exclusive" -- Selection behavior
+-- opt.selection = "exclusive" -- Selection behavior
+opt.selection = "inclusive"
 opt.mouse = "a" -- Enable mouse support
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 opt.modifiable = true -- Allow buffer modifications
@@ -127,6 +128,10 @@ vim.g.markdown_recommended_style = 0
 vim.filetype.add({
   extension = {
     env = "dotenv",
+    asm = "asm",
+    inc = "asm",
+    s = "asm",
+    S = "asm",
   },
   filename = {
     [".env"] = "dotenv",

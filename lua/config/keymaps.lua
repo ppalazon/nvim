@@ -262,7 +262,7 @@ map("n", "<leader>us", function()
 end, { desc = "Toggle Spell + Harper" })
 
 -- vim.pack keymaps  (<leader>p = pack)
-map("n", "<leader>pp", "<cmd>Pack<cr>", { desc = "Pack UI" })
+-- map("n", "<leader>pp", "<cmd>Pack<cr>", { desc = "Pack UI" })
 map("n", "<leader>pu", "<cmd>lua vim.pack.update()<cr>", { desc = "Pack Update All" })
 map("n", "<leader>pd", function()
   vim.ui.input({ prompt = "Plugin name to delete: " }, function(input)

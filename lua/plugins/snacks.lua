@@ -37,7 +37,20 @@ Snacks.setup({
   debug = { enabled = true },
   dim = { enabled = true },
   explorer = { enabled = true, replace_netrw = true },
-  image = { enabled = true },
+  image = {
+    enabled = true,
+    doc = {
+      inline = true,
+      float = true,
+      -- max_width = 40,
+      -- max_height = 20,
+    },
+    convert = {
+      magick = {
+        default = { "{src}[0]", "-scale", "680x480>" },
+      },
+    },
+  },
   indent = { enabled = true },
   input = { enabled = true },
   layout = { enabled = true },

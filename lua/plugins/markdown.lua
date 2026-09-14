@@ -1,5 +1,6 @@
 vim.pack.add({
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+  "https://github.com/HakonHarnes/img-clip.nvim",
 })
 
 local renderOpts = {
@@ -204,6 +205,31 @@ local renderOpts = {
 }
 
 require("render-markdown").setup(renderOpts)
+
+require("img-clip").setup({
+  default = {
+    dir_path = "assets",
+    relative_to_current_file = true,
+    use_absolute_path = false,
+    file_name = "img-%Y%m%d-%H%M%S",
+    prompt_for_file_name = false,
+  },
+  filetypes = {
+    markdown = {
+      template = "![image]($FILE_PATH)",
+    },
+  },
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function(event)
+    vim.keymap.set("n", "<leader>ci", "<cmd>PasteImage<cr>", {
+      buffer = event.buf,
+      desc = "Paste Image",
+    })
+  end,
+})
 
 vim.keymap.set("n", "<leader>um", function()
   local rm = require("render-markdown")

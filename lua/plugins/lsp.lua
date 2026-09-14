@@ -8,7 +8,7 @@ vim.pack.add({
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
-  ensure_installed = { "lua_ls" },
+  ensure_installed = { "lua_ls", "codelldb", "debugpy" },
 })
 
 -- Install slang-server enhanced plugin, to start you can execute :SlangServer command

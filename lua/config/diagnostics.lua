@@ -21,6 +21,22 @@ vim.fn.sign_define("DapBreakpoint", {
   numhl = "", -- no number-column highlight
 })
 
+vim.api.nvim_set_hl(0, "DapStoppedSign", {
+  fg = "#A6E3A1",
+  bold = true,
+})
+
+vim.api.nvim_set_hl(0, "DapStoppedLine", {
+  bg = "#1E2E1E",
+})
+
+vim.fn.sign_define("DapStopped", {
+  text = "▶",
+  texthl = "DapStoppedSign",
+  linehl = "DapStoppedLine",
+  numhl = "",
+})
+
 local sev = vim.diagnostic.severity
 
 vim.diagnostic.config({
@@ -70,4 +86,3 @@ map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
 map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
-

@@ -1,6 +1,7 @@
 -- nvim plugins configuration, each plugin has its own plugin
 require("plugins/whichkey")
 require("plugins/lsp")
+require("plugins/dap")
 require("plugins/snacks")
 require("plugins/mini")
 require("plugins/theme")

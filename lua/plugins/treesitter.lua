@@ -13,6 +13,7 @@ vim.pack.add({
 
 require("nvim-treesitter").setup({})
 require("nvim-treesitter").install({
+  "asm",
   "bash",
   "blade",
   "c",
@@ -34,7 +35,6 @@ require("nvim-treesitter").install({
   "jinja_inline",
   "jsdoc",
   "json",
-  "jsonc",
   "lua",
   "luadoc",
   "luap",

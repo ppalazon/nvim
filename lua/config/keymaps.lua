@@ -261,10 +261,35 @@ map("n", "<leader>us", function()
   end
 end, { desc = "Toggle Spell + Harper" })
 
--- vim.pack keymaps  (<leader>p = pack)
--- map("n", "<leader>pp", "<cmd>Pack<cr>", { desc = "Pack UI" })
-map("n", "<leader>pu", "<cmd>lua vim.pack.update()<cr>", { desc = "Pack Update All" })
-map("n", "<leader>pd", function()
+-- Project-local configuration
+map("n", "<leader>pc", function()
+  local root = vim.fs.root(0, { ".git" }) or vim.uv.cwd()
+  vim.cmd.edit(vim.fs.joinpath(root, ".nvim.lua"))
+end, { desc = "Open Project Config" })
+
+local function trust_project_config(action)
+  local file = vim.api.nvim_buf_get_name(0)
+  if vim.fs.basename(file) ~= ".nvim.lua" then
+    vim.notify("Open a project .nvim.lua before changing its trust", vim.log.levels.WARN)
+    return
+  end
+
+  local success, message = vim.secure.trust({ action = action, bufnr = 0 })
+  local prefix = action == "allow" and "Trusted " or "Denied trust for "
+  vim.notify(success and (prefix .. message) or message, success and vim.log.levels.INFO or vim.log.levels.ERROR)
+end
+
+map("n", "<leader>pt", function()
+  trust_project_config("allow")
+end, { desc = "Trust Project Config" })
+
+map("n", "<leader>pu", function()
+  trust_project_config("deny")
+end, { desc = "Untrust Project Config" })
+
+-- vim.pack keymaps
+map("n", "<leader>Pu", "<cmd>lua vim.pack.update()<cr>", { desc = "Pack Update All" })
+map("n", "<leader>Pd", function()
   vim.ui.input({ prompt = "Plugin name to delete: " }, function(input)
     if input and input ~= "" then
       pcall(vim.pack.del, { input })

@@ -74,7 +74,6 @@ map("i", ";", ";<c-g>u")
 
 -- save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>wall<cr><esc>", { desc = "Save All Files" })
-map("n", "<leader>W", "<cmd>wall<cr>", { desc = "Save All Files" })
 
 --keywordprg
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
@@ -152,6 +151,12 @@ map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 -- windows
 map("n", "<leader>ww", "<C-W>p", { desc = "Other Window", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
+map("n", "<leader>wo", "<C-W>o", { desc = "Delete Other Windows", remap = true })
+map("n", "<leader>w=", "<C-W>=", { desc = "Equalize Windows", remap = true })
+map("n", "<leader>wH", "<C-W>H", { desc = "Move Window Far Left", remap = true })
+map("n", "<leader>wJ", "<C-W>J", { desc = "Move Window Bottom", remap = true })
+map("n", "<leader>wK", "<C-W>K", { desc = "Move Window Top", remap = true })
+map("n", "<leader>wL", "<C-W>L", { desc = "Move Window Far Right", remap = true })
 map("n", "<leader>w-", "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", "<leader>sh", "<C-W>s", { desc = "Split Window Below", remap = true })
 -- map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true }) -- already use for yazi
@@ -187,7 +192,7 @@ map("n", "zk", "zckzOzz", {
 
 -- Better paste
 -- remap "p" in visual mode to delete the highlighted text without overwriting your yanked/copied text, and then paste the content from the unnamed register.
-map("v", "p", '"_dP', opts)
+map("x", "p", '"_dP', opts)
 
 -- Copy whole file content to clipboard with C-c
 map("n", "<C-c>", ":%y+<CR>", opts)
@@ -197,8 +202,8 @@ map("n", "<A-a>", "ggVG", { noremap = true, silent = true, desc = "Select all" }
 
 -- Visual --
 -- Stay in indent mode
-map("v", "<", "<gv", opts)
-map("v", ">", ">gv", opts)
+map("x", "<", "<gv", opts)
+map("x", ">", ">gv", opts)
 
 -- Easier access to beginning and end of lines
 map("n", "<A-h>", "^", {

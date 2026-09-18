@@ -90,7 +90,8 @@ Leader key: Space
 ```text
 <leader><space>     Smart file picker
 <leader>/           Grep picker
-<leader>e           File explorer
+<leader>e           Open or switch focus between the file explorer and its main buffer
+<S-F1>                 Show or hide the file explorer without focusing it when opening
 <leader>,           Buffer picker
 <leader>fb          Buffer picker
 <leader>fc          Find configuration files
@@ -113,6 +114,8 @@ Leader key: Space
 <leader>sR          Resume the last picker
 <leader>sr          Search and replace across files
 ```
+
+The file explorer opens when Neovim starts.
 
 In Snacks file and grep pickers, use `<S-h>`, `<S-i>`, and `<S-f>` to toggle
 hidden files, ignored files, and follow mode. `<C-y>` copies the selected

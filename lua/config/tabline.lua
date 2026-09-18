@@ -5,6 +5,31 @@ local SEP = ""
 local CLOSE = ""
 local NO_NAME = "[NO NAME]"
 
+local function delete_buffer(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+
+  local ok, snacks = pcall(require, "snacks")
+  if ok then
+    snacks.bufdelete({ buf = bufnr })
+  else
+    pcall(vim.api.nvim_buf_delete, bufnr, {})
+  end
+end
+
+function _G.tabline_buffer_click(bufnr, _, button)
+  if button == "m" then
+    delete_buffer(bufnr)
+  elseif button == "l" and vim.api.nvim_buf_is_valid(bufnr) then
+    vim.api.nvim_set_current_buf(bufnr)
+  end
+end
+
+function _G.tabline_buffer_close(bufnr)
+  delete_buffer(bufnr)
+end
+
 function M.set_highlights()
   vim.api.nvim_set_hl(0, "MyBufInactive", { fg = "#ABB2BF", bg = "#282C34" })
   vim.api.nvim_set_hl(0, "MyBufActive", { fg = "#ECEFF4", bg = "#3E4451", bold = true })
@@ -49,20 +74,20 @@ local function render_buf(bufnr, current)
   local filename = (name ~= "" and vim.fn.fnamemodify(name, ":t")) or NO_NAME
   local icon = get_icon(filename, name)
   local content = icon .. display_name
+  local label = ("%%%d@v:lua.tabline_buffer_click@%s%%T"):format(bufnr, content)
 
   if bufnr == current then
     return table.concat({
       "%#MyBufActive# ",
-      content,
-      " %#MyBufClose#",
-      CLOSE,
+      label,
+      (" %%#MyBufClose#%%%d@v:lua.tabline_buffer_close@%s%%T"):format(bufnr, CLOSE),
       " %#MyBufSeparator#",
       SEP,
     })
   else
     return table.concat({
       "%#MyBufInactive# ",
-      content,
+      label,
       "  %#MyBufSeparator#",
       SEP,
     })

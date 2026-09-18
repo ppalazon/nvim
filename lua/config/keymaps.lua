@@ -193,6 +193,7 @@ map("n", "zk", "zckzOzz", {
 -- Better paste
 -- remap "p" in visual mode to delete the highlighted text without overwriting your yanked/copied text, and then paste the content from the unnamed register.
 map("x", "p", '"_dP', opts)
+map("i", "<C-p>", "<C-r>+", { desc = "Paste System Clipboard" })
 
 -- Copy whole file content to clipboard with C-c
 map("n", "<C-c>", ":%y+<CR>", opts)

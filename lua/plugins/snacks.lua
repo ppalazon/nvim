@@ -163,7 +163,7 @@ Snacks.setup({
           end,
         },
         supports_live = true,
-        auto_close = true,
+        auto_close = false,
         diagnostics = true,
         diagnostics_open = false,
         focus = "list",
@@ -171,7 +171,7 @@ Snacks.setup({
         git_status = true,
         git_status_open = false,
         git_untracked = true,
-        jump = { close = true },
+        jump = { close = false },
         tree = true,
         watch = true,
         exclude = {

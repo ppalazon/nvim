@@ -31,6 +31,30 @@ local function confirm_pdf_or_jump(picker, item, action)
   Snacks.picker.actions.jump(picker, item, action)
 end
 
+local function explorer_picker()
+  return Snacks.picker.get({ source = "explorer" })[1]
+end
+
+local function focus_explorer()
+  local picker = explorer_picker()
+  if not picker then
+    Snacks.explorer()
+  elseif picker:is_focused() then
+    vim.api.nvim_set_current_win(picker.main)
+  else
+    picker:focus("list")
+  end
+end
+
+local function toggle_explorer()
+  local picker = explorer_picker()
+  if picker then
+    picker:close()
+  else
+    Snacks.explorer({ enter = false })
+  end
+end
+
 Snacks.setup({
   animate = { enabled = true },
   bigfile = { enabled = true },
@@ -172,6 +196,7 @@ Snacks.setup({
         git_status_open = false,
         git_untracked = true,
         jump = { close = false },
+        layout = { layout = { width = 32, min_width = 32 } },
         tree = true,
         watch = true,
         exclude = {
@@ -192,6 +217,17 @@ Snacks.setup({
     },
   },
 })
+
+-- Uncomment to auto open the explorer on nvim start
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   callback = function()
+--     vim.schedule(function()
+--       if not explorer_picker() then
+--         Snacks.explorer({ enter = false })
+--       end
+--     end)
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("User", {
   pattern = "VeryLazy",
@@ -228,7 +264,8 @@ local   keymaps = {
     { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-    { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+    { "<leader>e", focus_explorer, desc = "Focus File Explorer" },
+    { "<S-F1>", toggle_explorer, desc = "Toggle File Explorer" }, -- Change to F1 when it works under kitty-herdr
     {
       "<leader>,", function()
         Snacks.picker.buffers({

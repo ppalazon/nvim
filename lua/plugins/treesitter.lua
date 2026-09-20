@@ -90,6 +90,16 @@ for _, map in ipairs({
   { { "x", "o" }, "ia", "@parameter.inner" },
   { { "x", "o" }, "ad", "@comment.outer" },
   { { "x", "o" }, "as", "@statement.outer" },
+  { { "x", "o" }, "ai", "@conditional.outer" },
+  { { "x", "o" }, "ii", "@conditional.inner" },
+  { { "x", "o" }, "al", "@loop.outer" },
+  { { "x", "o" }, "il", "@loop.inner" },
+  { { "x", "o" }, "a=", "@assignment.outer" },
+  { { "x", "o" }, "i=", "@assignment.inner" },
+  { { "x", "o" }, "aC", "@call.outer" },
+  { { "x", "o" }, "iC", "@call.inner" },
+  { { "x", "o" }, "aR", "@return.outer" },
+  { { "x", "o" }, "iR", "@return.inner" },
 }) do
   vim.keymap.set(map[1], map[2], function()
     sel.select_textobject(map[3], "textobjects")

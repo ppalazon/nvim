@@ -193,6 +193,18 @@ gy                        Type definitions
 gai, gao                  Incoming and outgoing calls
 ```
 
+Tree-sitter text objects work in Visual and Operator-pending modes when the
+filetype provides the matching query. In Visual mode, `;` expands the selection
+to its parent syntax node and `,` shrinks it to a child node. In C buffers:
+
+```text
+ai, ii                    Conditional or its inner part
+al, il                    Loop or its body
+a=, i=                    Assignment or its inner part
+aC, iC                    Function call or its arguments
+aR, iR                    Return statement or its returned expression
+```
+
 ### Git
 
 Gitsigns mappings are available in Git-tracked buffers.

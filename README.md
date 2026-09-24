@@ -33,6 +33,7 @@ on [tduyng / nvim · GitLab](https://gitlab.com/tduyng/nvim)
 | `mini.nvim`                                | Comment commands and automatic pairs.                       |
 | `nvim-dap` and `nvim-dap-ui`               | Debugging for C and Python.                                 |
 | `noice.nvim`                               | Command line, messages, and LSP documentation UI.           |
+| `opencode.nvim`                            | OpenCode prompts, sessions, and native edit review.         |
 | `overseer.nvim`                            | Project and shell tasks.                                    |
 | `snacks.nvim`                              | Pickers, explorer, terminal, notifications, and UI toggles. |
 | `nvim-treesitter`                          | Syntax parsing, text objects, and code navigation.          |
@@ -324,6 +325,55 @@ Use `q` to close a quickfix buffer.
 <leader>oa                Select a task action
 <leader>oq                Close the task list
 ```
+
+WhichKey groups the global OpenCode mappings under AI. `<leader>aa` works in
+Normal and Visual modes, and `<F3>` works in Normal and Terminal modes. The
+other mappings below are Normal-mode mappings except for the Visual-mode form
+of `<leader>ai`.
+
+```text
+<leader>aa                Ask OpenCode about the cursor or selection
+<leader>ai (Normal)       Ask OpenCode to insert at the cursor
+<leader>ai (Visual)       Ask OpenCode to replace the selection
+<leader>ae                Give OpenCode a project-wide task
+<leader>as                Select a session on the connected server
+<leader>ao                Open or show the persistent OpenCode terminal
+<leader>ac                Hide the OpenCode terminal without stopping its session
+<F3>                      Toggle the persistent OpenCode terminal
+```
+
+The OpenCode prompt opens near the top of the editor in an eight-line float.
+Its width is limited to 80% of the editor, and long requests wrap within the
+window.
+
+Save a modified file-backed buffer before using `<leader>aa` or `<leader>ai`.
+Without an existing connection, the plugin finds an OpenCode server with an
+overlapping working directory. If none is available, it starts
+`opencode --port` in a bottom terminal that uses 40% of the available height at
+Neovim's current working directory. The terminal stays open when the main
+window changes buffers, and its window is protected from buffer replacement.
+`<leader>ao` creates and starts the terminal if it does not exist. `<leader>ac`
+hides its window while preserving the terminal process and OpenCode session.
+
+Session selection lists sessions from that server only and controls its TUI. A
+headless server needs an attached OpenCode TUI.
+
+When `notify-send` is available, Neovim sends a desktop notification after
+OpenCode finishes a request or reports an error. Permission requests use a
+critical notification.
+
+With the plugin's native edit handling, an edit request opens a buffer-local
+diff review in a new tab:
+
+```text
+da, dr                    Accept or reject the complete OpenCode edit
+dp, do                    Accept or reject the hunk under the cursor
+]c, [c                    Next or previous change
+q                         Close the edit review
+```
+
+OpenCode file-edit events run Neovim's native `checktime`, which reloads
+unchanged buffers from disk. Neovim keeps locally modified buffers intact.
 
 ## Debugging
 

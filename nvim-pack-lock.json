@@ -99,6 +99,11 @@
       "rev": "914decffe650296c87312c53b7933ecb86718499",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
+    "opencode.nvim": {
+      "rev": "84eabfbe65a44f452ee302fe360cea9fd9939f31",
+      "src": "https://github.com/nickjvandyke/opencode.nvim",
+      "version": "1.0.0 - 2.0.0"
+    },
     "overseer.nvim": {
       "rev": "a93d9f6d6defdac4bcd6d2c8ba988650e42e0a0e",
       "src": "https://github.com/stevearc/overseer.nvim"

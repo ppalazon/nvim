@@ -1,6 +1,7 @@
 vim.pack.add({
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
   "https://github.com/HakonHarnes/img-clip.nvim",
+  "https://github.com/dominic-righthere/markdown-pipetable.nvim",
 })
 
 local renderOpts = {
@@ -113,7 +114,7 @@ local renderOpts = {
     highlight = "RenderMarkdownQuote",
   },
   pipe_table = {
-    enabled = true,
+    enabled = false,
     render_modes = true,
     preset = "none",
     style = "full",
@@ -137,6 +138,9 @@ local renderOpts = {
     head = "RenderMarkdownTableHead",
     row = "RenderMarkdownTableRow",
     filler = "RenderMarkdownTableFill",
+  },
+  win_options = {
+    concealcursor = { rendered = "nvic" },
   },
   callout = {
     note = { raw = "[!NOTE]", rendered = "󰋽 Note", highlight = "RenderMarkdownInfo" },
@@ -205,6 +209,7 @@ local renderOpts = {
 }
 
 require("render-markdown").setup(renderOpts)
+require("pipetable").setup({})
 
 require("img-clip").setup({
   default = {

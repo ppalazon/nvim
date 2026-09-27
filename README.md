@@ -354,6 +354,10 @@ Neovim's current working directory. The terminal stays open when the main
 window changes buffers, and its window is protected from buffer replacement.
 `<leader>ao` creates and starts the terminal if it does not exist. `<leader>ac`
 hides its window while preserving the terminal process and OpenCode session.
+In Normal, Visual, Insert, and Terminal modes, the mouse wheel scrolls the
+OpenCode interface only when the pointer is over its valid terminal window and
+the terminal channel is active. This does not move focus from the current
+window. Elsewhere, the wheel keeps its normal Neovim behavior.
 
 Session selection lists sessions from that server only and controls its TUI. A
 headless server needs an attached OpenCode TUI.

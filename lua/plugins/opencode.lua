@@ -43,6 +43,30 @@ local function toggle_terminal()
   opencode_terminal:toggle()
 end
 
+local function scroll_terminal(key, button)
+  local mouse = vim.fn.getmousepos()
+  if not (opencode_terminal and opencode_terminal:valid() and mouse.winid == opencode_terminal.win) then
+    return key
+  end
+
+  local channel = vim.bo[opencode_terminal.buf].channel
+  if channel <= 0 then
+    return key
+  end
+
+  vim.api.nvim_chan_send(channel, ("\27[<%d;%d;%dM"):format(button, mouse.wincol, mouse.winrow))
+  return ""
+end
+
+for key, button in pairs({
+  ["<ScrollWheelUp>"] = 64,
+  ["<ScrollWheelDown>"] = 65,
+}) do
+  vim.keymap.set({ "n", "x", "i", "t" }, key, function()
+    return scroll_terminal(key, button)
+  end, { expr = true, desc = "Scroll OpenCode terminal under mouse" })
+end
+
 local function current_file_is_modified()
   local path = vim.api.nvim_buf_get_name(0)
   return path ~= "" and vim.bo.modified and vim.uv.fs_stat(path) ~= nil

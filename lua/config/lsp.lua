@@ -5,6 +5,17 @@ end
 
 -- local ts_server = vim.g.lsp_typescript_server or "vtsls"
 
+vim.lsp.config("harper_ls", {
+  filetypes = { "gitcommit", "markdown", "plaintex", "text", "tex", "typst" },
+  settings = {
+    ["harper-ls"] = {
+      linters = {
+        SpellCheck = false,
+      },
+    },
+  },
+})
+
 -- Enable LSP servers for Neovim 0.11+ (
 vim.lsp.enable({
   "lua_ls",

@@ -304,10 +304,17 @@ Use `q` to close a quickfix buffer.
 
 ### UI toggles
 
+The spelling and Harper commands affect the current buffer only. Harper is
+disabled by default and can be toggled only in a buffer using English spelling.
+It checks grammar only; its `SpellCheck` linter is disabled.
+
 ```text
 <leader>tw                Toggle line wrapping
 <leader>uf                Toggle autoformat on save
-<leader>us                Toggle spell checking and harper_ls
+:SpellEnglish, <leader>use Enable Neovim English spelling
+:SpellSpanish, <leader>uss Enable Neovim Spanish spelling
+:SpellOff, <leader>uso     Disable spelling and detach Harper
+:HarperToggle, <leader>ush Toggle Harper grammar checking
 <leader>uC                Select a color scheme
 <leader>ui                Inspect the position under the cursor
 <leader>uI                Inspect the syntax tree under the cursor

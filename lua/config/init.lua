@@ -1,5 +1,6 @@
 -- Load all configuration modules
 require("config.options")
+require("config.spell")
 require("config.keymaps")
 require("config.diagnostics")
 require("config.autocmds")

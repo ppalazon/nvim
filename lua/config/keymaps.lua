@@ -225,9 +225,9 @@ map("i", "<A-Up>", "<Esc>:m .-2<CR>==gi", opts)
 map("v", "<A-Down>", ":m '>+1<CR>gv=gv", opts)
 map("v", "<A-Up>", ":m '<-2<CR>gv=gv", opts)
 
--- Fix Spell checking
+-- Use the first spelling suggestion.
 map("n", "z0", "1z=", {
-  desc = "Fix world under cursor",
+  desc = "Fix word under cursor",
 })
 
 -- Toggle wrap
@@ -243,24 +243,6 @@ map("n", "<leader>cw", function()
   view.lnum = math.min(view.lnum, vim.api.nvim_buf_line_count(0))
   vim.fn.winrestview(view)
 end, { desc = "Format Markdown Paragraph" })
-
-map("n", "<leader>us", function()
-  local current_state = vim.o.spell
-  local bufnr = vim.api.nvim_get_current_buf()
-
-  if current_state then
-    local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "harper_ls" })
-    for _, client in ipairs(clients) do
-      client:stop()
-    end
-    vim.o.spell = false
-    vim.notify("Disabled Spell + Harper")
-  else
-    vim.o.spell = true
-    vim.lsp.enable("harper_ls", bufnr)
-    vim.notify("Enabled Spell + Harper")
-  end
-end, { desc = "Toggle Spell + Harper" })
 
 -- Project-local configuration
 map("n", "<leader>pc", function()

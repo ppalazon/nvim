@@ -72,18 +72,6 @@ Update plugins: `<leader>Pu` or `:lua vim.pack.update()`
 
 ## Keymaps
 
-General mappings live in `lua/config/keymaps.lua`. Feature-specific mappings
-live with their implementation, including `lua/config/lsp.lua`,
-`lua/config/diagnostics.lua`, `lua/config/session.lua`, and
-`lua/config/c_comments.lua`. Plugin mappings live in the relevant file under
-`lua/plugins/`, particularly `snacks.lua`, `git.lua`, `dap.lua`, and
-`conform.lua`.
-
-WhichKey shows available leader mappings while you type them. The Lua files are
-the source of truth for active mappings.
-
-## Quick start
-
 Leader key: Space
 
 ### Files and search
@@ -92,7 +80,7 @@ Leader key: Space
 <leader><space>     Smart file picker
 <leader>/           Grep picker
 <leader>e           Open or switch focus between the file explorer and its main buffer
-<S-F1>                 Show or hide the file explorer without focusing it when opening
+<S-F1>              Show or hide the file explorer without focusing it when opening
 <leader>,           Buffer picker
 <leader>fb          Buffer picker
 <leader>fc          Find configuration files
@@ -103,9 +91,9 @@ Leader key: Space
 <leader>fn          New buffer
 <leader>fd          Open the current buffer directory in Thunar
 <leader>fD          Open the project root in Thunar
-<leader>fCf          Copy full path
-<leader>fCn          Copy file name
-<leader>fCr          Copy path relative to the current directory
+<leader>fCf         Copy full path
+<leader>fCn         Copy file name
+<leader>fCr         Copy path relative to the current directory
 <leader>sb          Search buffer lines
 <leader>sB          Grep open buffers
 <leader>sw          Grep the word or visual selection
@@ -116,12 +104,15 @@ Leader key: Space
 <leader>sr          Search and replace across files
 ```
 
-The file explorer opens when Neovim starts.
+### Snacks Explorer
 
-In Snacks file and grep pickers, use `<S-h>`, `<S-i>`, and `<S-f>` to toggle
-hidden files, ignored files, and follow mode. `<C-y>` copies the selected
-file's relative path. In the explorer, `O` opens the current directory in
-Thunar.
+```text
+<S-h> Toggle hidden files
+<S-i> Toggle ignored files
+<S-f> Toggle follow mode
+<C-y> Copies the selected file's relative path
+O     Opens the current directory in Thunar
+```
 
 ### Buffers
 
@@ -171,17 +162,13 @@ and `<C-/>` closes the terminal window.
 
 ### LSP (native)
 
-These mappings are available after an LSP client attaches. `K` and `gd` also
-require the server to support hover and definition requests.
-
 ```text
 <leader>ca               Code actions
 <leader>cr               Rename symbol
 <leader>k, K             Hover documentation
-gd                        Go to definition
+gd                       Go to definition
+<leader>cf               Formats the current buffer (Conform)
 ```
-
-`<leader>cf` formats the current buffer through Conform.
 
 The Snacks LSP pickers are available globally:
 
@@ -194,9 +181,7 @@ gy                        Type definitions
 gai, gao                  Incoming and outgoing calls
 ```
 
-Tree-sitter text objects work in Visual and Operator-pending modes when the
-filetype provides the matching query. In Visual mode, `;` expands the selection
-to its parent syntax node and `,` shrinks it to a child node. In C buffers:
+### Tree-sitter text object
 
 ```text
 ai, ii                    Conditional or its inner part
@@ -207,8 +192,6 @@ aR, iR                    Return statement or its returned expression
 ```
 
 ### Git
-
-Gitsigns mappings are available in Git-tracked buffers.
 
 ```text
 ]h, [h                    Next or previous hunk
@@ -272,9 +255,8 @@ ih                        Select hunk text object
 ]q, [q                    Next or previous quickfix item
 <leader>sq                Quickfix picker
 <leader>sl                Location-list picker
+q                         Close a quickfix buffer.
 ```
-
-Use `q` to close a quickfix buffer.
 
 ### Markdown
 
@@ -304,17 +286,13 @@ Use `q` to close a quickfix buffer.
 
 ### UI toggles
 
-The spelling and Harper commands affect the current buffer only. Harper is
-disabled by default and can be toggled only in a buffer using English spelling.
-It checks grammar only; its `SpellCheck` linter is disabled.
-
 ```text
 <leader>tw                Toggle line wrapping
 <leader>uf                Toggle autoformat on save
-:SpellEnglish, <leader>use Enable Neovim English spelling
-:SpellSpanish, <leader>uss Enable Neovim Spanish spelling
-:SpellOff, <leader>uso     Disable spelling and detach Harper
-:HarperToggle, <leader>ush Toggle Harper grammar checking
+<leader>use               Enable Neovim English spelling
+<leader>uss               Enable Neovim Spanish spelling
+<leader>uso               Disable spelling and detach Harper
+<leader>ush               Toggle Harper grammar checking
 <leader>uC                Select a color scheme
 <leader>ui                Inspect the position under the cursor
 <leader>uI                Inspect the syntax tree under the cursor
@@ -333,10 +311,7 @@ It checks grammar only; its `SpellCheck` linter is disabled.
 <leader>oq                Close the task list
 ```
 
-WhichKey groups the global OpenCode mappings under AI. `<leader>aa` works in
-Normal and Visual modes, and `<F3>` works in Normal and Terminal modes. The
-other mappings below are Normal-mode mappings except for the Visual-mode form
-of `<leader>ai`.
+### OpenCode
 
 ```text
 <leader>aa                Ask OpenCode about the cursor or selection
@@ -349,32 +324,7 @@ of `<leader>ai`.
 <F3>                      Toggle the persistent OpenCode terminal
 ```
 
-The OpenCode prompt opens near the top of the editor in an eight-line float.
-Its width is limited to 80% of the editor, and long requests wrap within the
-window.
-
-Save a modified file-backed buffer before using `<leader>aa` or `<leader>ai`.
-Without an existing connection, the plugin finds an OpenCode server with an
-overlapping working directory. If none is available, it starts
-`opencode --port` in a bottom terminal that uses 40% of the available height at
-Neovim's current working directory. The terminal stays open when the main
-window changes buffers, and its window is protected from buffer replacement.
-`<leader>ao` creates and starts the terminal if it does not exist. `<leader>ac`
-hides its window while preserving the terminal process and OpenCode session.
-In Normal, Visual, Insert, and Terminal modes, the mouse wheel scrolls the
-OpenCode interface only when the pointer is over its valid terminal window and
-the terminal channel is active. This does not move focus from the current
-window. Elsewhere, the wheel keeps its normal Neovim behavior.
-
-Session selection lists sessions from that server only and controls its TUI. A
-headless server needs an attached OpenCode TUI.
-
-When `notify-send` is available, Neovim sends a desktop notification after
-OpenCode finishes a request or reports an error. Permission requests use a
-critical notification.
-
-With the plugin's native edit handling, an edit request opens a buffer-local
-diff review in a new tab:
+Edit request opens a buffer-local diff review in a new tab:
 
 ```text
 da, dr                    Accept or reject the complete OpenCode edit
@@ -382,9 +332,6 @@ dp, do                    Accept or reject the hunk under the cursor
 ]c, [c                    Next or previous change
 q                         Close the edit review
 ```
-
-OpenCode file-edit events run Neovim's native `checktime`, which reloads
-unchanged buffers from disk. Neovim keeps locally modified buffers intact.
 
 ## Debugging
 

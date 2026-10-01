@@ -13,66 +13,6 @@ local skip_nodes = {
   indented_code_block = true,
 }
 
-local function termcodes(keys)
-  return vim.api.nvim_replace_termcodes(keys, true, false, true)
-end
-
-local function default_newline()
-  if _G.MiniPairs then
-    return MiniPairs.cr()
-  end
-
-  return termcodes("<CR>")
-end
-
-function M.newline()
-  local line = vim.api.nvim_get_current_line()
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  if col < #line then
-    return default_newline()
-  end
-
-  local marker, spacing, text = line:match("^%s*([-+*])(%s+)(.*)$")
-  local number, delimiter
-  if not marker then
-    number, delimiter, spacing, text = line:match("^%s*(%d+)([.)])(%s+)(.*)$")
-  end
-
-  if not marker and not number then
-    return default_newline()
-  end
-
-  local task_marker, task_spacing, task_text = text:match("^%[([ xX%-])%](%s*)(.*)$")
-  local empty = task_marker and task_text:match("^%s*$") or text:match("^%s*$")
-  if empty then
-    return termcodes("<C-o>0<C-o>D")
-  end
-
-  local prefix = marker and (marker .. spacing) or (tostring(tonumber(number) + 1) .. delimiter .. spacing)
-  if task_marker then
-    prefix = prefix .. "[ ]" .. (task_spacing ~= "" and task_spacing or " ")
-  end
-
-  return termcodes("<CR>") .. prefix
-end
-
-function M.backtick()
-  local line = vim.api.nvim_get_current_line()
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  local before = line:sub(1, col)
-  local after = line:sub(col + 1)
-
-  if before:match("^%s*``$") and after == "" then
-    return termcodes("`<CR>```<Up><End>")
-  end
-
-  if _G.MiniPairs then
-    return MiniPairs.closeopen("``", "^[^\\]")
-  end
-
-  return "`"
-end
-
 local function get_prefix(line)
   local leading = line:match("^[ \t]*") or ""
   local rest = line:sub(#leading + 1)
@@ -217,20 +157,8 @@ vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("user_markdown_format", { clear = true }),
   pattern = { "markdown" },
   callback = function(event)
-    vim.bo.textwidth = 79
-    vim.bo.formatexpr = "v:lua.require('config.markdown').formatexpr()"
-    vim.keymap.set("i", "<CR>", M.newline, {
-      buffer = event.buf,
-      expr = true,
-      replace_keycodes = false,
-      desc = "Continue Markdown List",
-    })
-    vim.keymap.set("i", "`", M.backtick, {
-      buffer = event.buf,
-      expr = true,
-      replace_keycodes = false,
-      desc = "Complete Markdown Code Fence",
-    })
+    vim.bo[event.buf].textwidth = 79
+    vim.bo[event.buf].formatexpr = "v:lua.require('config.markdown').formatexpr()"
   end,
 })
 

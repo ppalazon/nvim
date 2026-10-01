@@ -37,9 +37,10 @@
       "rev": "99848daf801789dbebe2192b475eb887d375002c",
       "src": "https://github.com/HakonHarnes/img-clip.nvim"
     },
-    "markdown-pipetable.nvim": {
-      "rev": "0cd1c38e60c66d0f7e95ebf7dad103cd44d7265e",
-      "src": "https://github.com/dominic-righthere/markdown-pipetable.nvim"
+    "markdown-plus.nvim": {
+      "rev": "52f6af120a6409a5b8860cb0db01e835483d00d6",
+      "src": "https://github.com/YousefHadder/markdown-plus.nvim",
+      "version": "2.0.0 - 3.0.0"
     },
     "mason-lspconfig.nvim": {
       "rev": "77e06f7d2fc127e6ef0a720b59acbc50757cff19",

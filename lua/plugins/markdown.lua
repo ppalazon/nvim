@@ -1,7 +1,10 @@
 vim.pack.add({
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
   "https://github.com/HakonHarnes/img-clip.nvim",
-  "https://github.com/dominic-righthere/markdown-pipetable.nvim",
+  {
+    src = "https://github.com/YousefHadder/markdown-plus.nvim",
+    version = vim.version.range("^2"),
+  },
 })
 
 local renderOpts = {
@@ -113,7 +116,7 @@ local renderOpts = {
     highlight = "RenderMarkdownQuote",
   },
   pipe_table = {
-    enabled = false,
+    enabled = true,
     render_modes = true,
     preset = "none",
     style = "full",
@@ -207,7 +210,55 @@ local renderOpts = {
 }
 
 require("render-markdown").setup(renderOpts)
-require("pipetable").setup({})
+require("markdown-plus").setup({
+  table = {
+    keymaps = {
+      prefix = "<localleader>T",
+    },
+  },
+})
+
+local function configure_markdown_plus_keymaps(bufnr)
+  vim.api.nvim_buf_call(bufnr, function()
+    for lhs, rhs in pairs({
+      ["[b"] = "<Plug>(MarkdownPlusCodeBlockPrev)",
+      ["]b"] = "<Plug>(MarkdownPlusCodeBlockNext)",
+      gd = "<Plug>(MarkdownPlusFollowLink)",
+    }) do
+      local mapping = vim.fn.maparg(lhs, "n", false, true)
+      if mapping.buffer == 1 and mapping.rhs == rhs then
+        vim.keymap.del("n", lhs, { buffer = bufnr })
+      end
+    end
+
+    vim.keymap.set("n", "[B", "<Plug>(MarkdownPlusCodeBlockPrev)", {
+      buffer = bufnr,
+      desc = "Previous Markdown Code Block",
+    })
+    vim.keymap.set("n", "]B", "<Plug>(MarkdownPlusCodeBlockNext)", {
+      buffer = bufnr,
+      desc = "Next Markdown Code Block",
+    })
+    vim.keymap.set("n", "<localleader>hg", "<Plug>(MarkdownPlusFollowLink)", {
+      buffer = bufnr,
+      desc = "Follow Markdown TOC Link",
+    })
+  end)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("user_markdown_plus_keymaps", { clear = true }),
+  pattern = "markdown",
+  callback = function(event)
+    configure_markdown_plus_keymaps(event.buf)
+  end,
+})
+
+for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+  if vim.bo[bufnr].filetype == "markdown" then
+    configure_markdown_plus_keymaps(bufnr)
+  end
+end
 
 require("img-clip").setup({
   default = {

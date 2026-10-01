@@ -261,8 +261,37 @@ q                         Close a quickfix buffer.
 ### Markdown
 
 ```text
-<CR> (Insert)             Continue or end a Markdown list
-` (Insert)                Complete a code fence after the third backtick
+<CR>, <A-CR> (Insert)     Continue a list item or its content
+<Tab>, <S-Tab> (Insert)   Indent or outdent a list item
+<BS> (Insert)             Remove an empty list marker
+<C-t> (Insert)            Toggle a task checkbox
+o, O                      Add a list item below or above
+<leader>mr, <leader>mx    Renumber a list or toggle a checkbox
+<leader>lt{u,t,n,N,l,L,p,P,c} Toggle or clear a list type
+<leader>m{b,i,S,`,=,u,F}  Change inline text formatting
+<leader>me (Visual)       Escape Markdown punctuation
+<leader>mc                Insert or wrap a fenced code block
+<leader>mC                Change the current code block language
+]B, [B                    Next or previous fenced code block
+]], [[                    Next or previous heading
+<leader>h{+,-,1-6}        Change heading level
+<leader>h{t,u,T}          Generate, update, or open the table of contents
+<leader>hg                Follow a table-of-contents link
+<leader>ms                Toggle ATX or setext heading style
+<leader>mh, <leader>mH    Insert or change a thematic break
+<leader>m{l,e,a,R,I,p}    Create, edit, or convert links
+<leader>m{L,E,A}          Create, edit, or convert images
+<leader>mq                Toggle a blockquote
+<leader>mQ{i,t,c,b}       Insert, change, or convert a callout
+<leader>mf{i,e,d,g,r,n,p,l} Manage footnotes
+<leader>T{c,f,n}          Create, format, or normalize a table
+<leader>Ti{r,R,c,C}       Insert a table row or column
+<leader>Td{r,c}           Delete a table row or column
+<leader>Ty{r,c}           Duplicate a table row or column
+<leader>T{a,x,b,w,W,e}    Edit the current table cell
+<leader>Tm{j,k,h,l}       Move a table row or column
+<leader>T{t,sa,sd,vx,vi}  Transpose, sort, or convert a table
+<A-h/j/k/l> (Insert)      Move between table cells
 <leader>ci                Paste image into a Markdown buffer
 <leader>cp                Preview the current Markdown file with mdserve
 <leader>cw                Format the paragraph under the cursor

@@ -211,6 +211,9 @@ local renderOpts = {
 
 require("render-markdown").setup(renderOpts)
 require("markdown-plus").setup({
+  code_block = {
+    languages = { "lua", "c", "python", "javascript", "typescript", "bash", "json", "yaml", "markdown" },
+  },
   table = {
     keymaps = {
       prefix = "<localleader>T",

@@ -294,7 +294,6 @@ o, O                      Add a list item below or above
 <A-h/j/k/l> (Insert)      Move between table cells
 <leader>ci                Paste image into a Markdown buffer
 <leader>cp                Preview the current Markdown file with mdserve
-<leader>cw                Format the paragraph under the cursor
 <leader>um                Toggle Markdown rendering
 ```
 
@@ -373,7 +372,8 @@ and `debugpy`. The DAP setup looks for `codelldb` and `debugpy-adapter` on
 Launch settings belong to each project. Add a `.nvim.lua` file to the project
 root and adapt one of these templates:
 
-- `examples/dap/c/.nvim.lua` sets the compiled executable and optional arguments.
+- `examples/dap/c/.nvim.lua` sets the compiled executable and optional
+  arguments.
 - `examples/dap/python/.nvim.lua` sets the application entry script. It uses
   `.venv/bin/python` when available, otherwise `python3` from `PATH`.
 

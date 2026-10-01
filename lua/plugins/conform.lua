@@ -7,7 +7,7 @@ require("conform").setup({
     go = { "goimports", "gofmt", stop_after_first = true },
     python = { "ruff_format", "black", stop_after_first = true },
     json = { "biome", "prettier", stop_after_first = true },
-    markdown = { "prettier" },
+    markdown = { "prettier_markdown" },
     javascript = { "biome", "prettier", stop_after_first = true },
     typescript = { "biome", "prettier", stop_after_first = true },
     javascriptreact = { "biome", "prettier", stop_after_first = true },
@@ -21,6 +21,10 @@ require("conform").setup({
   },
   formatters = {
     biome = { require_cwd = true },
+    prettier_markdown = {
+      inherit = "prettier",
+      append_args = { "--prose-wrap", "always", "--print-width", "79" },
+    },
   },
   default_format_opts = {
     lsp_format = "fallback",

@@ -236,14 +236,6 @@ map("n", "<leader>tw", "<cmd>set wrap!<CR>", {
   silent = true,
 })
 
--- Format current markdown paragraph via 'formatexpr' while keeping the view stable.
-map("n", "<leader>cw", function()
-  local view = vim.fn.winsaveview()
-  vim.cmd("normal! gqip")
-  view.lnum = math.min(view.lnum, vim.api.nvim_buf_line_count(0))
-  vim.fn.winrestview(view)
-end, { desc = "Format Markdown Paragraph" })
-
 -- Project-local configuration
 map("n", "<leader>pc", function()
   local root = vim.fs.root(0, { ".git" }) or vim.uv.cwd()

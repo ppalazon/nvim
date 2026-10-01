@@ -5,7 +5,6 @@ require("config.keymaps")
 require("config.diagnostics")
 require("config.autocmds")
 require("config.lsp")
-require("config.markdown")
 require("config.yaml")
 
 -- Session management

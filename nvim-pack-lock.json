@@ -33,6 +33,10 @@
       "rev": "11595bf747edc270bce2069d1020502ad4ae56cf",
       "src": "https://github.com/MagicDuck/grug-far.nvim"
     },
+    "header.nvim": {
+      "rev": "020e1564b5a2ef302fedd4ebdd5fcf960267af98",
+      "src": "https://github.com/attilarepka/header.nvim"
+    },
     "img-clip.nvim": {
       "rev": "99848daf801789dbebe2192b475eb887d375002c",
       "src": "https://github.com/HakonHarnes/img-clip.nvim"

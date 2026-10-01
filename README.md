@@ -160,6 +160,12 @@ and `<C-/>` closes the terminal window.
 <leader><Tab>o           Close other tabs
 ```
 
+### Headers
+
+```text
+<leader>ra               Add an SPDX header
+```
+
 ### LSP (native)
 
 ```text

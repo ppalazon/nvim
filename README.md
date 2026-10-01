@@ -261,6 +261,8 @@ q                         Close a quickfix buffer.
 ### Markdown
 
 ```text
+<CR> (Insert)             Continue or end a Markdown list
+` (Insert)                Complete a code fence after the third backtick
 <leader>ci                Paste image into a Markdown buffer
 <leader>cp                Preview the current Markdown file with mdserve
 <leader>cw                Format the paragraph under the cursor

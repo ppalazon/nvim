@@ -23,7 +23,7 @@ require("conform").setup({
     biome = { require_cwd = true },
     prettier_markdown = {
       inherit = "prettier",
-      append_args = { "--prose-wrap", "always", "--print-width", "79" },
+      append_args = { "--prose-wrap", "always", "--print-width", "79", "--tab-width", "4" },
     },
   },
   default_format_opts = {

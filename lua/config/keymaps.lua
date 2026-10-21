@@ -283,3 +283,8 @@ vim.keymap.set("n", "dm", function()
   local mark = vim.fn.getcharstr()
   vim.cmd("delmarks " .. mark)
 end, { desc = "Delete mark" })
+
+-- Replace keymaps
+vim.keymap.set("n", "<leader>rw", 'viw"_d"+P', {
+  desc = "Replace word with clipboard",
+})

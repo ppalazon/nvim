@@ -172,6 +172,7 @@ local renderOpts = {
     example = { raw = "[!EXAMPLE]", rendered = "󰉹 Example", highlight = "RenderMarkdownHint" },
     quote = { raw = "[!QUOTE]", rendered = "󱆨 Quote", highlight = "RenderMarkdownQuote" },
     cite = { raw = "[!CITE]", rendered = "󱆨 Cite", highlight = "RenderMarkdownQuote" },
+    ai = { raw = "[!AI]", rendered = "🤖 AI", highlight = "RenderMarkdownQuote" },
   },
   link = {
     enabled = true,
@@ -221,6 +222,47 @@ require("markdown-plus").setup({
   },
 })
 
+local function paste_html()
+  if vim.fn.executable("pandoc") == 0 then
+    vim.notify("PasteHtml requires pandoc", vim.log.levels.ERROR)
+    return
+  end
+
+  local html
+  if vim.fn.executable("xclip") == 1 then
+    local result = vim.system({ "xclip", "-selection", "clipboard", "-t", "text/html", "-o" }, { text = true }):wait()
+    if result.code == 0 and result.stdout ~= "" then
+      html = result.stdout
+    end
+  end
+
+  if not html then
+    local clipboard = vim.fn.getreg("+")
+    if clipboard:find("<[%a!/]") then
+      html = clipboard
+    end
+  end
+
+  if not html then
+    vim.notify("Clipboard does not contain HTML", vim.log.levels.WARN)
+    return
+  end
+
+  local result = vim
+    .system({ "pandoc", "--from=html", "--to=gfm", "--wrap=none" }, { stdin = html, text = true })
+    :wait()
+  if result.code ~= 0 then
+    vim.notify(vim.trim(result.stderr), vim.log.levels.ERROR)
+    return
+  end
+
+  local lines = vim.split(result.stdout, "\n", { plain = true })
+  if lines[#lines] == "" then
+    table.remove(lines)
+  end
+  vim.api.nvim_buf_set_lines(0, vim.api.nvim_win_get_cursor(0)[1], vim.api.nvim_win_get_cursor(0)[1], false, lines)
+end
+
 local function configure_markdown_plus_keymaps(bufnr)
   vim.api.nvim_buf_call(bufnr, function()
     for lhs, rhs in pairs({
@@ -245,6 +287,14 @@ local function configure_markdown_plus_keymaps(bufnr)
     vim.keymap.set("n", "<localleader>hg", "<Plug>(MarkdownPlusFollowLink)", {
       buffer = bufnr,
       desc = "Follow Markdown TOC Link",
+    })
+    vim.keymap.set("n", "<leader>mP", paste_html, {
+      buffer = bufnr,
+      desc = "Paste HTML as Markdown",
+    })
+    pcall(vim.api.nvim_buf_del_user_command, bufnr, "PasteHtml")
+    vim.api.nvim_buf_create_user_command(bufnr, "PasteHtml", paste_html, {
+      desc = "Paste clipboard HTML as Markdown",
     })
   end)
 end

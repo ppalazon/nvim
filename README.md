@@ -237,6 +237,8 @@ ih                        Select hunk text object
 <leader>dl                Run the last configuration
 <leader>dL                List breakpoints
 <leader>dP, <leader>dt    Pause or terminate
+<leader>df (Java)         Debug the current test class
+<leader>dn (Java)         Debug the nearest test method
 <leader>dr, <leader>du    Toggle the REPL or DAP UI
 <leader>de                Evaluate the expression or selection
 <leader>dw                Add the visual selection to watches
@@ -287,6 +289,7 @@ o, O                      Add a list item below or above
 <leader>mh, <leader>mH    Insert or change a thematic break
 <leader>m{l,e,a,R,I,p}    Create, edit, or convert links
 <leader>m{L,E,A}          Create, edit, or convert images
+<leader>mP, :PasteHtml    Insert clipboard HTML as Markdown
 <leader>mq                Toggle a blockquote
 <leader>mQ{i,t,c,b}       Insert, change, or convert a callout
 <leader>mf{i,e,d,g,r,n,p,l} Manage footnotes

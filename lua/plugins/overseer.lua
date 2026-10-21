@@ -11,6 +11,7 @@ require("overseer").setup({
     default = {
       "on_exit_set_status",
       "on_complete_notify",
+      "follow_output",
       { "on_complete_dispose", require_view = { "SUCCESS", "FAILURE" } },
       {
         "open_output",

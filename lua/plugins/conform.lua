@@ -14,6 +14,7 @@ require("conform").setup({
     typescriptreact = { "biome", "prettier", stop_after_first = true },
     css = { "prettier" },
     html = { "prettier" },
+    xml = { "xmlformatter" },
     toml = { "taplo" },
     systemverilog = { "verible" },
     verilog = { "verible" },
@@ -24,6 +25,10 @@ require("conform").setup({
     prettier_markdown = {
       inherit = "prettier",
       append_args = { "--prose-wrap", "always", "--print-width", "79", "--tab-width", "4" },
+    },
+    xmlformatter = {
+      inherit = "xmlformatter",
+      prepend_args = { "--blanks" },
     },
   },
   default_format_opts = {

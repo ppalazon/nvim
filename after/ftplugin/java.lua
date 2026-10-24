@@ -40,17 +40,38 @@ for _, version in ipairs({ "8", "11", "17", "21", "27" }) do
   end
 end
 
+local formatter_settings
+for _, relative_path in ipairs({
+  ".eclipse-formatter.xml",
+  "eclipse-formatter.xml",
+  ".settings/eclipse-formatter.xml",
+  "config/eclipse-formatter.xml",
+}) do
+  local path = vim.fs.joinpath(root_dir, relative_path)
+  if vim.uv.fs_stat(path) then
+    formatter_settings = path
+    break
+  end
+end
+
+local settings = {
+  java = {
+    configuration = { runtimes = runtimes },
+  },
+}
+if formatter_settings then
+  settings.java.format = {
+    settings = { url = formatter_settings },
+  }
+end
+
 local workspace_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "jdtls", vim.fn.sha256(root_dir))
 
 jdtls.start_or_attach({
   cmd = { vim.fs.joinpath(vim.fn.stdpath("data"), "mason", "bin", "jdtls"), "-data", workspace_dir },
   root_dir = root_dir,
   init_options = { bundles = bundles },
-  settings = {
-    java = {
-      configuration = { runtimes = runtimes },
-    },
-  },
+  settings = settings,
 }, { dap = {} })
 
 vim.keymap.set("n", "<leader>df", jdtls.test_class, { buffer = true, desc = "Debug Java Test Class" })

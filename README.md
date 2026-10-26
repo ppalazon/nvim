@@ -112,6 +112,7 @@ Leader key: Space
 <S-f> Toggle follow mode
 <C-y> Copies the selected file's relative path
 O     Opens the current directory in Thunar
+<leader>uc Toggle compact folders
 ```
 
 ### Buffers

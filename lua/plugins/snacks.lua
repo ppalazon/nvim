@@ -55,6 +55,128 @@ local function toggle_explorer()
   end
 end
 
+local compact_explorer_folders = true
+
+local function visible_children(tree, node, filter)
+  tree:expand(node)
+  local children = {}
+  for _, child in pairs(node.children) do
+    if filter(child) then
+      table.insert(children, child)
+    end
+  end
+  return children
+end
+
+local function expand_compact_chains(opts, cwd)
+  local tree = require("snacks.explorer.tree")
+  local filter = tree:filter(opts)
+
+  local function expand(node)
+    local children = visible_children(tree, node, filter)
+    while #children == 1 and children[1].dir do
+      node = children[1]
+      node.open = true
+      children = visible_children(tree, node, filter)
+    end
+
+    for _, child in ipairs(children) do
+      if child.dir and child.open then
+        expand(child)
+      end
+    end
+  end
+
+  local root = tree:find(cwd)
+  root.open = true
+  for _, child in ipairs(visible_children(tree, root, filter)) do
+    if child.dir and child.open then
+      expand(child)
+    end
+  end
+end
+
+local function compact_explorer_items(items)
+  local children = {}
+  for _, item in ipairs(items) do
+    if item.parent then
+      children[item.parent] = children[item.parent] or {}
+      table.insert(children[item.parent], item)
+    end
+  end
+
+  local hidden = {}
+  local parents = {}
+  for _, item in ipairs(items) do
+    if item.parent and item.dir and not hidden[item] then
+      local chain = { item }
+      local current = item
+      while children[current] and #children[current] == 1 and children[current][1].dir do
+        current = children[current][1]
+        table.insert(chain, current)
+      end
+
+      if #chain > 1 then
+        for index = 1, #chain - 1 do
+          hidden[chain[index]] = true
+        end
+        local leaf = chain[#chain]
+        leaf.compact_name = table.concat(
+          vim.tbl_map(function(entry)
+            return vim.fs.basename(entry.file)
+          end, chain),
+          "/"
+        )
+        parents[leaf] = item.parent
+      end
+    end
+  end
+
+  local copies = {}
+  local compacted = {}
+  for _, item in ipairs(items) do
+    if not hidden[item] then
+      copies[item] = vim.tbl_extend("force", {}, item)
+      table.insert(compacted, copies[item])
+    end
+  end
+  for item, copy in pairs(copies) do
+    copy.parent = copies[parents[item] or item.parent]
+  end
+  return compacted
+end
+
+local function compact_explorer_finder(opts, ctx)
+  local source = require("snacks.picker.source.explorer")
+  if not compact_explorer_folders or not ctx.filter:is_empty() then
+    return source.explorer(opts, ctx)
+  end
+
+  expand_compact_chains(opts, ctx.filter.cwd)
+  local finder = source.explorer(opts, ctx)
+  return function(cb)
+    local items = {}
+    finder(function(item)
+      table.insert(items, item)
+    end)
+    for _, item in ipairs(compact_explorer_items(items)) do
+      cb(item)
+    end
+  end
+end
+
+local function format_compact_explorer_item(item, picker)
+  local formatted = Snacks.picker.format.file(item, picker)
+  if item.compact_name then
+    for _, part in ipairs(formatted) do
+      if part.field == "file" then
+        part[1] = item.compact_name
+      end
+    end
+  end
+  return formatted
+end
+
 Snacks.setup({
   animate = { enabled = true },
   bigfile = { enabled = true },
@@ -164,6 +286,8 @@ Snacks.setup({
         ignored = false,
         config = function(opts)
           opts = require("snacks.picker.source.explorer").setup(opts)
+          opts.finder = compact_explorer_finder
+          opts.format = format_compact_explorer_item
           opts.actions.confirm = function(picker, item, action)
             if is_pdf(item) then
               picker:close()
@@ -172,6 +296,11 @@ Snacks.setup({
             end
 
             require("snacks.explorer.actions").actions.confirm(picker, item, action)
+          end
+          opts.actions.toggle_compact_folders = function(picker)
+            compact_explorer_folders = not compact_explorer_folders
+            picker:find()
+            Snacks.notify.info("Explorer compact folders " .. (compact_explorer_folders and "enabled" or "disabled"))
           end
 
           return opts
@@ -210,6 +339,7 @@ Snacks.setup({
           list = {
             keys = {
               ["O"] = "thunar_dir",
+              ["<leader>uc"] = "toggle_compact_folders",
             },
           },
         },

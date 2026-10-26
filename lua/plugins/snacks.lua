@@ -56,6 +56,7 @@ local function toggle_explorer()
 end
 
 local compact_explorer_folders = true
+local compact_closed_folders = {}
 
 local function visible_children(tree, node, filter)
   tree:expand(node)
@@ -73,6 +74,9 @@ local function expand_compact_chains(opts, cwd)
   local filter = tree:filter(opts)
 
   local function expand(node)
+    if compact_closed_folders[node.path] then
+      return
+    end
     local children = visible_children(tree, node, filter)
     while #children == 1 and children[1].dir do
       node = children[1]
@@ -90,7 +94,7 @@ local function expand_compact_chains(opts, cwd)
   local root = tree:find(cwd)
   root.open = true
   for _, child in ipairs(visible_children(tree, root, filter)) do
-    if child.dir and child.open then
+    if child.dir and child.open and not compact_closed_folders[child.path] then
       expand(child)
     end
   end
@@ -128,6 +132,7 @@ local function compact_explorer_items(items)
           "/"
         )
         parents[leaf] = item.parent
+        leaf.compact_start = item.file
       end
     end
   end
@@ -288,6 +293,17 @@ Snacks.setup({
           opts = require("snacks.picker.source.explorer").setup(opts)
           opts.finder = compact_explorer_finder
           opts.format = format_compact_explorer_item
+          local explorer_actions = require("snacks.explorer.actions")
+          local function close_compact_folder(picker, item)
+            if compact_explorer_folders and item and item.compact_start then
+              compact_closed_folders[item.compact_start] = true
+              require("snacks.explorer.tree"):close(item.compact_start)
+              explorer_actions.update(picker, { target = item.compact_start, refresh = true })
+              return
+            end
+
+            explorer_actions.actions.explorer_close(picker, item)
+          end
           opts.actions.confirm = function(picker, item, action)
             if is_pdf(item) then
               picker:close()
@@ -295,8 +311,17 @@ Snacks.setup({
               return
             end
 
-            require("snacks.explorer.actions").actions.confirm(picker, item, action)
+            if compact_explorer_folders and item and item.compact_start and item.open then
+              close_compact_folder(picker, item)
+              return
+            end
+            if item and item.dir and not item.open then
+              compact_closed_folders[item.file] = nil
+            end
+
+            explorer_actions.actions.confirm(picker, item, action)
           end
+          opts.actions.explorer_close = close_compact_folder
           opts.actions.toggle_compact_folders = function(picker)
             compact_explorer_folders = not compact_explorer_folders
             picker:find()

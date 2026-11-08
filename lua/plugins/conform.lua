@@ -14,6 +14,7 @@ require("conform").setup({
     typescriptreact = { "biome", "prettier", stop_after_first = true },
     css = { "prettier" },
     html = { "prettier" },
+    java = { "google-java-format" },
     xml = { "xmlformatter" },
     toml = { "taplo" },
     systemverilog = { "verible" },

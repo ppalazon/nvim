@@ -68,7 +68,12 @@ end
 local workspace_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "jdtls", vim.fn.sha256(root_dir))
 
 jdtls.start_or_attach({
-  cmd = { vim.fs.joinpath(vim.fn.stdpath("data"), "mason", "bin", "jdtls"), "-data", workspace_dir },
+  cmd = {
+    vim.fs.joinpath(vim.fn.stdpath("data"), "mason", "bin", "jdtls"),
+    "--java-executable=/usr/lib/jvm/java-21-openjdk/bin/java",
+    "-data",
+    workspace_dir,
+  },
   root_dir = root_dir,
   init_options = { bundles = bundles },
   settings = settings,

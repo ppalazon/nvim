@@ -289,6 +289,7 @@ Snacks.setup({
       explorer = {
         hidden = true,
         ignored = false,
+        include = { ".env", ".env.*" },
         config = function(opts)
           opts = require("snacks.picker.source.explorer").setup(opts)
           opts.finder = compact_explorer_finder

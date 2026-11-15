@@ -33,7 +33,7 @@ do
 end
 
 local runtimes = {}
-for _, version in ipairs({ "8", "11", "17", "21", "27" }) do
+for _, version in ipairs({ "8", "11", "17", "21", "25", "27" }) do
   local path = "/usr/lib/jvm/java-" .. version .. "-openjdk"
   if vim.uv.fs_stat(path) then
     table.insert(runtimes, { name = version == "8" and "JavaSE-1.8" or "JavaSE-" .. version, path = path })

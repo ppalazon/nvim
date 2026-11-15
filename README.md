@@ -218,6 +218,7 @@ ih                        Select hunk text object
 <leader>gf                Current-file Git log
 <leader>gB                Open the remote Git URL
 <leader>gg                Open LazyGit
+<leader>gw                Switch to another Git worktree
 <leader>gd                Open Diffview status
 <leader>gv, <leader>gV    Repository or current-file history in Diffview
 <leader>gc, <leader>gC    Compare revisions or file history range

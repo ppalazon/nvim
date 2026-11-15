@@ -2,6 +2,11 @@
 vim.pack.add({
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/sindrets/diffview.nvim",
+  "https://github.com/afonsofrancof/worktrees.nvim",
+})
+
+require("worktrees").setup({
+  mappings = { switch = "<leader>gw" },
 })
 
 -- Setup gitsigns.nvim

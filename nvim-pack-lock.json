@@ -137,6 +137,10 @@
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
       "src": "https://github.com/folke/which-key.nvim"
     },
+    "worktrees.nvim": {
+      "rev": "bd3bb6db01aee69775b8d237dcb50d66d96d2d68",
+      "src": "https://github.com/afonsofrancof/worktrees.nvim"
+    },
     "yanky.nvim": {
       "rev": "adcabd8512bead30184916fa9277e73c021ef099",
       "src": "https://github.com/gbprod/yanky.nvim"

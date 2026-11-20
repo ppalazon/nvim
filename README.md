@@ -26,7 +26,7 @@ on [tduyng / nvim · GitLab](https://gitlab.com/tduyng/nvim)
 | `catppuccin`                               | Mocha color scheme.                                         |
 | `conform.nvim`                             | Format buffers and injected languages.                      |
 | `flash.nvim`                               | Character and Treesitter jumps.                             |
-| `gitsigns.nvim` and `diffview.nvim`        | Git signs, hunk actions, and diff views.                    |
+| `gitsigns.nvim` and `codediff.nvim`        | Git signs, hunk actions, and inline diff views.             |
 | `grug-far.nvim`                            | Search and replace across files.                            |
 | `nvim-lspconfig`, Mason, and Slang Server  | LSP servers, tools, and SystemVerilog support.              |
 | `render-markdown.nvim` and `img-clip.nvim` | Markdown rendering and image pasting.                       |
@@ -219,10 +219,20 @@ ih                        Select hunk text object
 <leader>gB                Open the remote Git URL
 <leader>gg                Open LazyGit
 <leader>gw                Switch to another Git worktree
-<leader>gd                Open Diffview status
-<leader>gv, <leader>gV    Repository or current-file history in Diffview
+<leader>gd                Open CodeDiff status
+<leader>gv, <leader>gV    Repository or current-file history in CodeDiff
 <leader>gc, <leader>gC    Compare revisions or file history range
 <leader>g2                Compare two files
+]f, [f (CodeDiff)         Next or previous changed file
+]c, [c (CodeDiff)         Next or previous change
+t (CodeDiff)              Toggle inline or side-by-side layout
+q (CodeDiff)              Close the diff view
+<leader>grl               List GitHub pull requests
+<leader>grr               Start or resume a GitHub review from a PR buffer
+<leader>grc               Choose a PR commit from an Octo review
+<leader>gra (Normal/Visual) Add an inline GitHub review comment
+<leader>grs               Submit an Octo review
+<C-a> (Octo submit)       Approve the review
 ```
 
 ### Debug

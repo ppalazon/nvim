@@ -112,11 +112,6 @@
       "rev": "0ddca04c02aab8ba18d2072f9b855f3806adad54",
       "src": "https://github.com/pwntester/octo.nvim"
     },
-    "opencode.nvim": {
-      "rev": "84eabfbe65a44f452ee302fe360cea9fd9939f31",
-      "src": "https://github.com/nickjvandyke/opencode.nvim",
-      "version": "1.0.0 - 2.0.0"
-    },
     "overseer.nvim": {
       "rev": "a93d9f6d6defdac4bcd6d2c8ba988650e42e0a0e",
       "src": "https://github.com/stevearc/overseer.nvim"
@@ -125,9 +120,17 @@
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
+    "postilla.nvim": {
+      "rev": "7c5d3177932e5b379d2308973ebb44b9abda4238",
+      "src": "https://github.com/eltonsst/postilla.nvim"
+    },
     "render-markdown.nvim": {
       "rev": "8e8795368391036643b622875a6da6a51bcd33f4",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "review.nvim": {
+      "rev": "0a379fae01709645956005f76c4650b7740931a3",
+      "src": "https://github.com/georgeguimaraes/review.nvim"
     },
     "slang-server.nvim": {
       "rev": "2726dc844719202957cea93f6b6f014602fdaf54",

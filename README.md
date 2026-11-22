@@ -33,8 +33,9 @@ on [tduyng / nvim · GitLab](https://gitlab.com/tduyng/nvim)
 | `mini.nvim`                                | Comment commands and automatic pairs.                       |
 | `nvim-dap` and `nvim-dap-ui`               | Debugging for C and Python.                                 |
 | `noice.nvim`                               | Command line, messages, and LSP documentation UI.           |
-| `opencode.nvim`                            | OpenCode prompts, sessions, and native edit review.         |
 | `overseer.nvim`                            | Project and shell tasks.                                    |
+| `postilla.nvim`                            | Inline review comments, copied as feedback for an agent.    |
+| `review.nvim`                              | Diff review comments and notes, exported as markdown.       |
 | `snacks.nvim`                              | Pickers, explorer, terminal, notifications, and UI toggles. |
 | `nvim-treesitter`                          | Syntax parsing, text objects, and code navigation.          |
 | `which-key.nvim`                           | Leader-key command groups and mapping help.                 |
@@ -164,7 +165,7 @@ and `<C-/>` closes the terminal window.
 ### Headers
 
 ```text
-<leader>ra               Add an SPDX header
+<leader>ch               Add an SPDX header
 ```
 
 ### LSP (native)
@@ -352,6 +353,13 @@ o, O                      Add a list item below or above
 <leader>., <leader>S      Open a scratch buffer or scratch selector
 ```
 
+### Clipboard
+
+```text
+<leader>yy                Open the yank history picker
+<leader>yw                Replace the word under the cursor with the clipboard
+```
+
 ### Tasks
 
 ```text
@@ -362,26 +370,66 @@ o, O                      Add a list item below or above
 <leader>oq                Close the task list
 ```
 
-### OpenCode
+### Agent review
 
 ```text
-<leader>aa                Ask OpenCode about the cursor or selection
-<leader>ai (Normal)       Ask OpenCode to insert at the cursor
-<leader>ai (Visual)       Ask OpenCode to replace the selection
-<leader>ae                Give OpenCode a project-wide task
-<leader>as                Select a session on the connected server
-<leader>ao                Open or show the persistent OpenCode terminal
-<leader>ac                Hide the OpenCode terminal without stopping its session
-<F3>                      Toggle the persistent OpenCode terminal
+<leader>rr                Review the working tree in a diff
+<leader>rc                Pick commits to review
+<leader>rb                Pick a branch to review against its base
+<leader>rn (Normal)       Add a note on the current line of any file
+<leader>rn (Visual)       Add a note on the selected lines
+<leader>re                Edit the review comment at the cursor
+<leader>rd                Delete the review comment at the cursor
+<leader>rl                List review comments
+<leader>rx                Copy review comments as markdown
 ```
 
-Edit request opens a buffer-local diff review in a new tab:
+Review diff view:
 
 ```text
-da, dr                    Accept or reject the complete OpenCode edit
-dp, do                    Accept or reject the hunk under the cursor
-]c, [c                    Next or previous change
-q                         Close the edit review
+i                         Add a comment on the line or selection
+F                         Add a comment on the whole file
+e, d                      Edit or delete the comment at the cursor
+c                         List comments
+r                         Mark the file as reviewed and go to the next unreviewed file
+<Tab>, <S-Tab>            Next or previous unreviewed file
+]n, [n                    Next or previous comment
+f                         Show or hide the file panel
+t                         Toggle side-by-side and inline layouts
+C                         Copy comments as markdown and preview them
+q                         Export, archive the comments, and close the review
+?                         Show review keymaps
+```
+
+Review comment popup:
+
+```text
+<CR> (Insert)             Add a line
+<CR> (Normal), <C-s>      Submit the comment
+<Tab>                     Cycle the comment type
+<Esc>, q (Normal)         Cancel
+```
+
+### Postilla
+
+```text
+<leader>as                Start or restore a review
+<leader>ac                Comment on the current line or selected lines
+<leader>ae                Edit a comment by ID
+<leader>ad                Delete a comment by ID
+<leader>al                List comments in quickfix
+<leader>ap                Preview the feedback
+<leader>ax                Copy the feedback without finishing
+<leader>aD                Copy the feedback and finish the review
+<leader>aa                Discard the review
+]r, [r                    Next or previous comment
+```
+
+Postilla comment window:
+
+```text
+<C-s>                     Save the comment
+<Esc> (Normal)            Cancel
 ```
 
 ## Debugging

@@ -8,7 +8,8 @@ wk.setup({
 })
 wk.add({
   { "<leader><tab>", group = "tabs" },
-  { "<leader>a", group = "AI" },
+  { "<leader>a", group = "Postilla" },
+  { "<leader>r", group = "AI review" },
   { "<leader>c", group = "code" },
   { "<leader>d", group = "debug" },
   { "<leader>p", group = "project management" },

@@ -298,4 +298,4 @@ local function select_license()
   end)
 end
 
-vim.keymap.set("n", "<leader>ra", select_license, { desc = "Add SPDX header" })
+vim.keymap.set("n", "<leader>ch", select_license, { desc = "Add SPDX header" })

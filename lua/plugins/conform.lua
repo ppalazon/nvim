@@ -36,7 +36,7 @@ require("conform").setup({
     lsp_format = "fallback",
   },
   format_on_save = function(bufnr)
-    local ignore_filetypes = { "sql", "yaml", "yml" }
+    local ignore_filetypes = { "sql", "yaml", "yml", "markdown" }
     if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
       return
     end

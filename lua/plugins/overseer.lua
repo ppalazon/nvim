@@ -23,6 +23,33 @@ require("overseer").setup({
   },
 })
 
+-- Overseer lists templates in provider order (the just provider is unordered).
+-- Sort the OverseerRun launcher alphabetically.
+-- snacks.nvim replaces vim.ui.select on UIEnter, so wrap it after that.
+local function sort_overseer_templates()
+  local ui_select = vim.ui.select
+  vim.ui.select = function(items, opts, on_choice)
+    if opts and opts.kind == "overseer_template" then
+      items = vim.list_slice(items)
+      table.sort(items, function(a, b)
+        return a.name:lower() < b.name:lower()
+      end)
+    end
+    return ui_select(items, opts, on_choice)
+  end
+end
+
+if vim.v.vim_did_enter == 1 then
+  sort_overseer_templates()
+else
+  vim.api.nvim_create_autocmd("UIEnter", {
+    once = true,
+    callback = function()
+      vim.schedule(sort_overseer_templates)
+    end,
+  })
+end
+
 vim.keymap.set("n", "<F5>", "<cmd>OverseerRun<cr>", { desc = "Run Project Task" })
 
 vim.keymap.set("n", "<leader>or", "<cmd>OverseerRun<cr>", { desc = "Run Project Task" })
